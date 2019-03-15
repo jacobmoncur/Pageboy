@@ -35,17 +35,20 @@ extension PageboyViewController {
 
         guard defaultIndex < newViewControllerCount,
             let viewController = fetchViewController(at: defaultIndex) else {
+                self.currentIndex = nil
+                let empty = emptyViewController ?? UIViewController()
+                updateViewControllers(to: [empty], animated: false, async: false, force: false) { _ in }
                 return
         }
         
+        currentIndex = defaultIndex
         updateViewControllers(to: [viewController], animated: false, async: false, force: false) { [weak self, defaultIndex, viewController] _ in
 
             guard let hasSelf = self else {
                 /// Self DNE
                 return
             }
-
-            hasSelf.currentIndex = defaultIndex
+            
             hasSelf.delegate?.pageboyViewController(hasSelf,
                                                     didReloadWith: viewController,
                                                     currentPageIndex: defaultIndex)

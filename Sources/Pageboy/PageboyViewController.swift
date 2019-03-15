@@ -140,6 +140,8 @@ open class PageboyViewController: UIViewController {
     /// A map of view controllers and related page indexes.
     internal lazy var viewControllerIndexMap = IndexedObjectMap<UIViewController>()
     
+    public var emptyViewController: UIViewController?
+    
     /// The number of pages in the page view controller.
     public var pageCount: Int? {
         return viewControllerCount
