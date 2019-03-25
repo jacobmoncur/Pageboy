@@ -16,6 +16,12 @@ public protocol PageboyViewControllerDataSource: class {
     /// - Returns: The total number of view controllers to display.
     func numberOfViewControllers(in pageboyViewController: PageboyViewController) -> Int
     
+    /// The indexForIdentifier
+    ///
+    /// - Parameter pageboyViewController: The Page view controller.
+    /// - Returns: The total number of view controllers to display.
+    func pageIndex(for identifier: String) -> PageboyViewController.PageIndex?
+    
     /// The view controller to display at a page index.
     ///
     /// - Parameters:

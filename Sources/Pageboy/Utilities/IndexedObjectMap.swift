@@ -44,4 +44,15 @@ internal final class IndexedObjectMap<T: AnyObject> {
         })
         invalidIndexes.forEach({ self.map[$0] = nil })
     }
+
+    func remapIndexes(block: (T) -> Int?) {
+        var tempMap = map
+        map.removeAll()
+        tempMap.forEach({
+            if let value = $0.value.object, let index = block(value) {
+                set(index, for: value)
+            }
+        })
+        tempMap.removeAll()
+    }
 }

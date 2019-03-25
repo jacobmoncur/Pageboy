@@ -8,6 +8,10 @@
 
 import UIKit
 
+public protocol IdentifiableController {
+    var identifier: String { get set }
+}
+
 // MARK: - VC Reloading
 extension PageboyViewController {
     
@@ -16,6 +20,38 @@ extension PageboyViewController {
     /// and defaultPageIndex(forPageboyViewController:).
     public func reloadData() {
         reloadData(reloadViewControllers: true)
+    }
+
+    // Reloads data while keeping current viewcontroller in place
+    public func reloadInPlace() {
+        // Re-map viewcontrollers
+        viewControllerIndexMap.remapIndexes { (controller) -> Int? in
+            guard let controller = controller as? IdentifiableController else { return nil }
+            return dataSource?.pageIndex(for: controller.identifier)
+        }
+        
+        
+        // Reset count
+        let newViewControllerCount = dataSource?.numberOfViewControllers(in: self) ?? 0
+        viewControllerCount = newViewControllerCount
+        
+        // Reset index
+        let defaultPage = self.dataSource?.defaultPage(for: self) ?? .first
+        let defaultIndex = defaultPage.indexValue(in: self)
+        currentIndex = defaultIndex
+        
+        // Double check bounds
+        guard defaultIndex < newViewControllerCount,
+            let viewController = fetchViewController(at: defaultIndex) else {
+                self.currentIndex = nil
+                let empty = emptyViewController ?? UIViewController()
+                updateViewControllers(to: [empty], animated: false, async: false, force: false) { _ in }
+                return
+        }
+        
+        // Report update
+        delegate?.pageboyViewController(self, didReloadWith: viewController, currentPageIndex: defaultIndex)
+        
     }
     
     /// Reload the pages in the PageboyViewController
