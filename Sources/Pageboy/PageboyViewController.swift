@@ -119,7 +119,7 @@ open class PageboyViewController: UIViewController {
         }
     }
     /// Whether the page view controller is currently animating a scroll between pages.
-    private(set) internal var isScrollingAnimated = false {
+    internal var isScrollingAnimated = false {
         didSet {
             isUserInteractionEnabled = !isScrollingAnimated
         }

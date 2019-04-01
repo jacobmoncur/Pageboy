@@ -39,6 +39,8 @@ extension PageboyViewController {
         let defaultPage = self.dataSource?.defaultPage(for: self) ?? .first
         let defaultIndex = defaultPage.indexValue(in: self)
         currentIndex = defaultIndex
+
+        isScrollingAnimated = false
         
         // Double check bounds
         guard defaultIndex < newViewControllerCount,
@@ -68,6 +70,8 @@ extension PageboyViewController {
 
         let defaultPage = self.dataSource?.defaultPage(for: self) ?? .first
         let defaultIndex = defaultPage.indexValue(in: self)
+
+        isScrollingAnimated = false
 
         guard defaultIndex < newViewControllerCount,
             let viewController = fetchViewController(at: defaultIndex) else {
