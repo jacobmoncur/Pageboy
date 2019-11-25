@@ -250,6 +250,28 @@ open class PageboyViewController: UIViewController {
         return result
     }
     
+    // MARK: View Controller Updates
+    
+    /// Scroll the page view controller to a new page.
+    ///
+    /// - parameter page: The index of the new page.
+    /// - parameter animated: Whether to animate the transition.
+    /// - parameter completion: The completion closure.
+    /// - Returns: Whether the scroll was executed.
+    @discardableResult
+    open func scrollToPageForced(_ page: Page,
+                           animated: Bool,
+                           completion: PageScrollCompletion? = nil) -> Bool {
+        var result: Bool = false
+        DispatchQueue.executeInMainThread {
+            result = self._scrollToPage(page,
+                                        animated: animated,
+                                        force: true,
+                                        completion: completion)
+        }
+        return result
+    }
+    
     /// Insert a new page into the page view controller.
     ///
     /// - Parameters:
